@@ -1,19 +1,42 @@
-import './App.scss';
-import { Link, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import React, { useState } from 'react';
 
-import Header from './components/Header/Header';
 import LoginForm from './components/LoginForm/LoginForm';
-import RegistrationForm from './components/RegistrationForm/RegistrationForm';
+import Profile from './components/Profile/Profile';
+import './App.scss';
+import { users } from './shared/state';
 
-const App: React.FC = () => (
-  <Router>
+const App: React.FC = () => {
+  const [user, setUser] = useState({name: ""});
+  const [error, setError] = useState("");
+
+  const login = (details: any) => {
+    if (details.name === users[0].name && details.password === users[0].password) {
+      setUser({
+        name: details.name,
+      });
+    } else {
+      setError("Username or password incorrect");
+    }
+  };
+
+  const logout = () => {
+    setUser({name: ""});
+    setError("");
+  };
+
+  return (
     <div className="App">
-      <Header />
-      <Route component={RegistrationForm} exact path="/registration"/>
-      <Route component={LoginForm} exact path="/login"/>
+      {(user.name !== "") ? (
+      <div className="welcome">
+        <h2>Welcome, <span>{user.name}</span></h2>
+        <Profile username={user.name} />
+        <button onClick={logout} type="button">Logout</button>
+      </div>
+    ) : (
+      <LoginForm error={error} login={login}/>
+    )}
     </div>
-  </Router>
-
-);
+  );
+};
 
 export default App;

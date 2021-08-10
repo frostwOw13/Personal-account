@@ -1,36 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
+import './LoginForm.scss';
 
-const LoginForm: React.FC = () => (
-  <div className="card col-12 col-lg-4 login-card mt-2 hv-center">
-    <form>
-      <div className="form-group text-left">
-        <label htmlFor="email">
-          Email address{' '}
-          <input
-            aria-describedby="emailHelp"
-            className="form-control"
-            id="email"
-            placeholder="Enter email"
-            type="email"
-          />
-        </label>
+interface LoginFormProps {
+  login: (details: any) => void,
+  error: string
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ error, login }) => {
+  const [details, setDetails] = useState({name: "", password: ""});
+
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    login(details);
+  };
+
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="col-md-7">
+          <div className="card">
+            <form className="box" onSubmit={submitHandler}>
+              <h1>Login</h1>
+              {(error !== "") ? (
+                <div className="error">{error}</div>
+              ) : ""}
+              <p className="text-muted">Please enter your login and password!</p>
+              <input
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setDetails({...details, name: e.target.value});
+                }}
+                placeholder="Username"
+                type="text"
+                value={details.name}/>
+              <input
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setDetails({...details, password: e.target.value});
+                }}
+                placeholder="Password"
+                type="password"
+                value={details.password}/>
+              <button className="btn-submit" type="submit">Login</button>
+            </form>
+          </div>
+        </div>
       </div>
-      <div className="form-group text-left">
-        <label htmlFor="password">
-          Password
-          <input
-            className="form-control"
-            id="password"
-            placeholder="Password"
-            type="password"
-          />
-        </label>
-      </div>
-      <button className="btn btn-primary" type="submit">
-        Login
-      </button>
-    </form>
-  </div>
-);
+    </div>
+  );
+};
 
 export default LoginForm;
