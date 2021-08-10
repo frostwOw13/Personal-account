@@ -1,17 +1,33 @@
+/* eslint-disable react/jsx-sort-props */
 import React, { useState } from 'react';
 import './Profile.scss';
 
 interface ContactData {
   name: string,
-  phone: string
+  phone: string,
+  id: number
 }
 
 const Profile: React.FC = () => {
-  const [contactsList, setContactsList] = useState<Array<ContactData>>([{name: "John", phone: "8-999-999-99-99"}]);
-  const [contact, setContact] = useState<ContactData>({name: "", phone: ""});
+  const [contactsList, setContactsList] = useState<Array<ContactData>>([{name: "John", phone: "8-999-999-99-99", id: 0}]);
+  const [contact, setContact] = useState<ContactData>({name: "", phone: "", id: 0});
+  const [error, setError] = useState<string>("");
 
   const submitHandler = () => {
-    setContactsList([...contactsList, contact]);
+    if (contact.name && contact.phone) {
+      setContactsList([...contactsList, contact]);
+      setContact({name: "", phone: "", id: Math.ceil(Math.random() * 100000)});
+      setError("");
+    }
+    else setError("Name or phone shouldn't be empty");
+  };
+
+  const handleDelete = (e: React.MouseEvent<HTMLDivElement>, id: number) => {
+    setContactsList(contactsList.filter((val) => val.id !== id));
+  };
+
+  const handleEdit = (e: React.MouseEvent<HTMLDivElement>, id: number) => {
+    
   };
 
   return (
@@ -21,6 +37,9 @@ const Profile: React.FC = () => {
           <div className="col col-xl-10">
             <div className="card bg-dark">
               <div className="card-body p-5">
+                {(error !== "") ? (
+                  <div className="error">{error}</div>
+                ) : ""}
                 <form className="d-flex justify-content-center align-items-center mb-4">
                   <div className="form-outline flex-fill">
                     <label className="form-label col-6" htmlFor="form1">
@@ -60,13 +79,21 @@ const Profile: React.FC = () => {
                   >
                     <ul className="list-group mb-0">
                       {contactsList.map((val) => (
-                        <li className="list-group-item d-flex align-items-center border-0 mb-2 rounded">
+                        <li id={String(val.id)} className="list-group-item d-flex align-items-center border-0 mb-2 rounded">
                           <div className="info">
                             <p>{val.name}</p>
                             <p>{val.phone}</p>
                           </div>
-                          <div className="btn-item" id="edit" />
-                          <div className="btn-item" id="delete"/>
+                          <div
+                            className="btn-item"
+                            aria-hidden="true"
+                            id="edit"
+                            onClick={(e) => handleEdit(e, val.id)}/>
+                          <div
+                            className="btn-item"
+                            aria-hidden="true"
+                            id="delete"
+                            onClick={(e) => handleDelete(e, val.id)}/>
                         </li>
                         )
                       )}
