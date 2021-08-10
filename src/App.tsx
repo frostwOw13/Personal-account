@@ -1,23 +1,19 @@
-import logo from './logo.svg';
 import './App.scss';
+import { Link, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+
+import Header from './components/Header/Header';
+import LoginForm from './components/LoginForm/LoginForm';
+import RegistrationForm from './components/RegistrationForm/RegistrationForm';
 
 const App: React.FC = () => (
-  <div className="App">
-    <header className="App-header">
-      <img alt="logo" className="App-logo" src={logo} />
-      <p>
-        Edit <code>src/App.tsx</code> and save to reload.
-      </p>
-      <a
-        className="App-link"
-        href="https://reactjs.org"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Learn React
-      </a>
-    </header>
-  </div>
+  <Router>
+    <div className="App">
+      <Header />
+      <Route component={RegistrationForm} exact path="/registration"/>
+      <Route component={LoginForm} exact path="/login"/>
+    </div>
+  </Router>
+
 );
 
 export default App;
