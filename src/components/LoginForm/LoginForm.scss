@@ -4,7 +4,7 @@
 
 .card {
   margin-bottom: 20px;
-  border: none
+  border: none;
 }
 
 .box {
@@ -17,7 +17,7 @@
   ;
   text-align: center;
   transition: 0.25s;
-  margin-top: 100px
+  margin-top: 100px;
 }
 
 .box input[type="text"],
@@ -33,25 +33,25 @@
   outline: none;
   color: white;
   border-radius: 24px;
-  transition: 0.25s
+  transition: 0.25s;
 }
 
 .box h1 {
   color: white;
   text-transform: uppercase;
-  font-weight: 500
+  font-weight: 500;
 }
 
 .error {
   color: red;
   text-transform: uppercase;
-  font-weight: 500
+  font-weight: 500;
 }
 
 .box input[type="text"]:focus,
 .box input[type="password"]:focus {
   width: 300px;
-  border-color: #2ecc71
+  border-color: #2ecc71;
 }
 
 .btn-submit {
@@ -66,11 +66,11 @@
   color: white;
   border-radius: 24px;
   transition: 0.25s;
-  cursor: pointer
+  cursor: pointer;
 }
 
 .btn-submit:hover {
-  background: #2ecc71
+  background: #2ecc71;
 }
 
 

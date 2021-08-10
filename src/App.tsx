@@ -28,9 +28,12 @@ const App: React.FC = () => {
     <div className="App">
       {(user.name !== "") ? (
       <div className="welcome">
-        <h2>Welcome, <span>{user.name}</span></h2>
-        <Profile username={user.name} />
-        <button onClick={logout} type="button">Logout</button>
+        <div className="welcome-header">
+          <button className="welcome-btn" onClick={logout} type="button">Logout</button>
+          <h2 className="welcome-message">Welcome, <span>{user.name}</span></h2>
+        </div>
+        <Profile />
+
       </div>
     ) : (
       <LoginForm error={error} login={login}/>
