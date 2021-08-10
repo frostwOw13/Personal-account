@@ -2,6 +2,12 @@
 
 Front End test task application. [link to task](https://docs.google.com/document/d/1PFafdSZ2PcQLRtAyotvIupDmpGZ_6DnN9Q1kk0ogJm4/edit#)
 
+## Note before using app
+
+* *Use admin/admin to login in app* 
+* *You can add, delete and edit contacts after login*
+* *You can search throw all contacts list by search bar*
+
 ## Setup and start
 
 1. Clone the repository and install the dependencies
@@ -12,6 +18,7 @@ npm install
 ```bash
 npm start
 ```
+3. Also check the [deploy version](https://frostwow-personal-account.netlify.app/) of this app
 
 ## Available commands
 
@@ -20,8 +27,3 @@ npm start
 * `npm lint`: Run linter.
 * `npm lint:fix`: Run linter with automatic fix.
 
-## Note before using app
-
-* *Use admin/admin to login in app* 
-* *You can add, delete and edit contacts after login*
-* *You can search throw all contacts list by search bar*
