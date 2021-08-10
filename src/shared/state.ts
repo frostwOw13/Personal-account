@@ -4,6 +4,11 @@ export interface UserData {
   id: number
 }
 
+export interface UserLoginData {
+  name: string,
+  password: string
+}
+
 export const users = <Array<UserData>>[
   {
     name: "admin",

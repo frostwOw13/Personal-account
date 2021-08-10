@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import LoginForm from './components/LoginForm/LoginForm';
 import Profile from './components/Profile/Profile';
 import './App.scss';
-import { users } from './shared/state';
+import { UserLoginData, users } from './shared/state';
 
 const App: React.FC = () => {
   const [user, setUser] = useState({name: ""});
   const [error, setError] = useState("");
 
-  const login = (details: any) => {
+  const login = (details: UserLoginData) => {
     if (details.name === users[0].name && details.password === users[0].password) {
       setUser({
         name: details.name,

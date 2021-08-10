@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+
+import { UserLoginData } from '../../shared/state';
 import './LoginForm.scss';
 
 interface LoginFormProps {
-  login: (details: any) => void,
+  login: (details: UserLoginData) => void,
   error: string
 }
 

@@ -1,4 +1,6 @@
-/* eslint-disable react/jsx-sort-props */
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
+/* eslint-disable no-param-reassign */
 import React, { useState } from 'react';
 import './Profile.scss';
 
@@ -11,23 +13,41 @@ interface ContactData {
 const Profile: React.FC = () => {
   const [contactsList, setContactsList] = useState<Array<ContactData>>([{name: "John", phone: "8-999-999-99-99", id: 0}]);
   const [contact, setContact] = useState<ContactData>({name: "", phone: "", id: 0});
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [mode, setMode] = useState<string>("add");
   const [error, setError] = useState<string>("");
 
-  const submitHandler = () => {
+  const submitHandlerAdd = () => {
     if (contact.name && contact.phone) {
-      setContactsList([...contactsList, contact]);
-      setContact({name: "", phone: "", id: Math.ceil(Math.random() * 100000)});
+      setContactsList([...contactsList, {...contact, id: Math.trunc(Math.random() * 100000)}]);
+      setContact({name: "", phone: "", id: 0});
       setError("");
     }
     else setError("Name or phone shouldn't be empty");
   };
 
-  const handleDelete = (e: React.MouseEvent<HTMLDivElement>, id: number) => {
-    setContactsList(contactsList.filter((val) => val.id !== id));
+  const submitHandlerUpdate = () => {
+    if (contact.name && contact.phone) {
+      contactsList.forEach((el) => {
+        if (el.id === contact.id) {
+          el.name = contact.name;
+          el.phone = contact.phone;
+        }
+      });
+      setContact({...contact, name: "", phone: ""});
+      setError("");
+      setMode("add");
+    }
+    else setError("Name or phone shouldn't be empty");
   };
 
-  const handleEdit = (e: React.MouseEvent<HTMLDivElement>, id: number) => {
-    
+  const handleDelete = (e: React.MouseEvent<HTMLDivElement>, id: number) => {
+    setContactsList(contactsList.filter((contactItem) => contactItem.id !== id));
+  };
+
+  const handleEdit = (e: React.MouseEvent<HTMLDivElement>, contactItem: ContactData) => {
+    setMode("update");
+    setContact(contactItem);
   };
 
   return (
@@ -40,7 +60,7 @@ const Profile: React.FC = () => {
                 {(error !== "") ? (
                   <div className="error">{error}</div>
                 ) : ""}
-                <form className="d-flex justify-content-center align-items-center mb-4">
+                <form className="d-flex justify-content-center align-items-center mb-4 form-contact">
                   <div className="form-outline flex-fill">
                     <label className="form-label col-6" htmlFor="form1">
                       <input
@@ -65,12 +85,26 @@ const Profile: React.FC = () => {
                       />
                     </label>
                   </div>
-                  <button
+                  {mode === "add" ? (<button
                     className="btn btn-info ms-2"
-                    onClick={submitHandler}
+                    onClick={submitHandlerAdd}
                     type="button">Add</button>
+                    ) : (
+                    <button
+                    className="btn btn-info ms-2"
+                    onClick={submitHandlerUpdate}
+                    type="button">Update</button>
+                    )}
                 </form>
-
+                <input
+                  className="form-control search"
+                  id="form3"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setSearchTerm(e.target.value);
+                  }}
+                  placeholder="Search by name..."
+                  type="text"
+                  value={searchTerm}/>
                 <div className="tab-content" id="ex1-content">
                   <div
                     aria-labelledby="ex1-tab-1"
@@ -78,22 +112,26 @@ const Profile: React.FC = () => {
                     id="ex1-tabs-1"
                   >
                     <ul className="list-group mb-0">
-                      {contactsList.map((val) => (
-                        <li id={String(val.id)} className="list-group-item d-flex align-items-center border-0 mb-2 rounded">
+                      {contactsList.filter((val) => {
+                        if (searchTerm === "") return val;
+                        if (searchTerm && val.name.toLowerCase().includes(searchTerm.toLowerCase())) return val;
+                      }).map((contactItem) => (
+                        <li className="list-group-item d-flex align-items-center border-0 mb-2 rounded"
+                          id={String(contactItem.id)} key={String(contactItem.id)}>
                           <div className="info">
-                            <p>{val.name}</p>
-                            <p>{val.phone}</p>
+                            <p>{contactItem.name}</p>
+                            <p>{contactItem.phone}</p>
                           </div>
                           <div
-                            className="btn-item"
                             aria-hidden="true"
+                            className="btn-item"
                             id="edit"
-                            onClick={(e) => handleEdit(e, val.id)}/>
+                            onClick={(e) => handleEdit(e, contactItem)}/>
                           <div
-                            className="btn-item"
                             aria-hidden="true"
+                            className="btn-item"
                             id="delete"
-                            onClick={(e) => handleDelete(e, val.id)}/>
+                            onClick={(e) => handleDelete(e, contactItem.id)}/>
                         </li>
                         )
                       )}
