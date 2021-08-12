@@ -1,6 +1,6 @@
 # Personal account
 
-Front End test task application. [link to task](https://docs.google.com/document/d/1PFafdSZ2PcQLRtAyotvIupDmpGZ_6DnN9Q1kk0ogJm4/edit#)
+Front End test task application.
 
 ## Note before using app
 
